@@ -102,11 +102,12 @@ def eh_pedra_jogador(pedra):
 def cria_goban_vazio(n):
     return [['.' for _ in range(n)] for _ in range(n)]
 
+#ta mal
 def cria_goban(n, brancas, pretas):
     goban = cria_goban_vazio(n)
     for tup in brancas:
-        col = n - (ord(tup[0]) - 64)
-        row = tup[1] - 1
+        col = (ord(tup[0]) - 65)
+        row = tup[1] - 9
 
 def cria_copia_goban():
     # Constructor to create a copy of a Go board
