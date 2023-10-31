@@ -1,5 +1,3 @@
-
-
 def cria_intersecao(col, lin):
     if not (isinstance(col, str) and isinstance(lin, int)):
         raise ValueError('cria_intersecao: argumentos invalidos')
@@ -11,7 +9,7 @@ def obtem_col(intersecao):
         return intersecao[0]
 
 
-def obtem_lin():
+def obtem_lin(intersecao):
     if isinstance(intersecao[1], int):
         return intersecao[1]
 
@@ -61,91 +59,98 @@ def obtem_intersecoes_adjacentes(intersecao, leitura):
     return tuple(adjacent)
 
 def ordena_intersecoes(tuplo_intersecoes):
-    # High-level function to sort intersections
-    pass
 
-class Pedra:
-    def __init__(self, jogador):
-        # Constructor to create a stone
-        pass
+    def key_func(intersection):
+        column, row = intersection
+        return (column, row)
 
-    def eh_pedra(self, arg):
-        # Recognizer to check if it's a stone
-        pass
+    sorted_intersections = sorted(tuplo_intersecoes, key=key_func)
 
-    def eh_pedra_branca(self):
-        # Recognizer to check if it's a white stone
-        pass
+    return sorted_intersections
 
-    def eh_pedra_preta(self):
-        # Recognizer to check if it's a black stone
-        pass
 
-    def pedras_iguais(self, other):
-        # Tester to check if two stones are equal
-        pass
+#PEDRA
+def cria_pedra_branca():
+    return "O"
 
-    def pedra_para_str(self):
-        # Transformer to convert stone to a string
-        pass
+def cria_pedra_preta():
+    return "X"
+
+def cria_pedra_neutra():
+    return "."
+
+def eh_pedra(arg):
+    return arg in ["O", "X", " "]
+
+def eh_pedra_branca(pedra):
+    return pedra == "O"
+
+def eh_pedra_preta(pedra):
+    return pedra == "X"
+
+def pedras_iguais(p1, p2):
+    return p1 == p2
+
+def pedra_para_str(pedra):
+    return pedra
 
 def eh_pedra_jogador(pedra):
-    # High-level function to check if it's a player's stone
+    return pedra in ["O", "X"]
+
+
+#GOBAN
+def cria_goban_vazio(n):
+    return [['.' for _ in range(n)] for _ in range(n)]
+
+def cria_goban(n, brancas, pretas):
+    goban = cria_goban_vazio(n)
+    for tup in brancas:
+        col = n - (ord(tup[0]) - 64)
+        row = tup[1] - 1
+
+def cria_copia_goban():
+    # Constructor to create a copy of a Go board
     pass
 
+def obtem_ultima_intersecao():
+    # Selector to get the last intersection
+    pass
 
-class Goban:
-    def __init__(self, n):
-        # Constructor to create an empty Go board
-        pass
+def obtem_pedra(intersecao_i):
+    # Selector to get the stone at an intersection
+    pass
 
-    def __init__(self, n, ib, ip):
-        # Constructor to create a Go board with stones
-        pass
+def obtem_cadeia(intersecao_i):
+    # Selector to get a tuple of intersections in a chain
+    pass
 
-    def cria_copia_goban(self):
-        # Constructor to create a copy of a Go board
-        pass
+def coloca_pedra(intersecao_i, pedra):
+    # Modifier to place a stone on the board
+    pass
 
-    def obtem_ultima_intersecao(self):
-        # Selector to get the last intersection
-        pass
+def remove_pedra(intersecao_i):
+    # Modifier to remove a stone from the board
+    pass
 
-    def obtem_pedra(self, intersecao_i):
-        # Selector to get the stone at an intersection
-        pass
+def remove_cadeia(tuplo_intersecoes):
+    # Modifier to remove a chain of stones
+    pass
 
-    def obtem_cadeia(self, intersecao_i):
-        # Selector to get a tuple of intersections in a chain
-        pass
+def eh_goban(arg):
+    # Recognizer to check if it's a Go board
+    pass
 
-    def coloca_pedra(self, intersecao_i, pedra):
-        # Modifier to place a stone on the board
-        pass
+def eh_intersecao_valida(intersecao_i):
+    # Recognizer to check if an intersection is valid on the board
+    pass
 
-    def remove_pedra(self, intersecao_i):
-        # Modifier to remove a stone from the board
-        pass
+def gobans_iguais(other):
+    # Tester to check if two Go boards are equal
+    pass
 
-    def remove_cadeia(self, tuplo_intersecoes):
-        # Modifier to remove a chain of stones
-        pass
-
-    def eh_goban(self, arg):
-        # Recognizer to check if it's a Go board
-        pass
-
-    def eh_intersecao_valida(self, intersecao_i):
-        # Recognizer to check if an intersection is valid on the board
-        pass
-
-    def gobans_iguais(self, other):
-        # Tester to check if two Go boards are equal
-        pass
-
-    def goban_para_str(self):
-        # Transformer to convert the Go board to a string
-        pass
+def goban_para_str():
+    # Transformer to convert the Go board to a string
+    pass
 
 def obtem_territorios(goban):
     # High-level function to get territories
@@ -163,6 +168,12 @@ def obtem_pedras_jogadores(goban):
     # High-level function to get the number of stones for each player
     pass
 
+#pretty print
+def print_go_board(board):
+    labels = "  A B C D E F G H I"
+    for row in range(len(board), 0, -1):
+        print(f"{row} {' '.join(board[row - 1])} {row}")
+    print(labels)
 
 a = cria_intersecao("A", 2)
 b = obtem_col(a)
@@ -177,5 +188,35 @@ print(e)
 
 f = obtem_intersecoes_adjacentes(a,  cria_intersecao('S', 19))
 print(f)
+print("EXEMPLOS")
+i1 = cria_intersecao('A', 2)
+i2 = cria_intersecao('B', 13)
+
+z = intersecoes_iguais(i1, i2)
+print(z)
+
+x = intersecao_para_str(i2)
+print(x)
+
+v = intersecoes_iguais(i1, str_para_intersecao('A2'))
+print(v)
+
+n = tuple(intersecao_para_str(i) for i in obtem_intersecoes_adjacentes(i1, cria_intersecao('S',19)))
+print(n)
+
+tup = (cria_intersecao('A',1), cria_intersecao('A',3), cria_intersecao('B',1), cria_intersecao('B',2))
+
+m = tuple(intersecao_para_str(i) for i in ordena_intersecoes(tup))
+print(m)
 
 
+print("EXEMPLOS PEDRA")
+bb = cria_pedra_branca()
+print(eh_pedra(bb))
+
+pp = cria_pedra_preta()
+print(pedras_iguais(bb, pp))
+
+print(pedra_para_str(bb), pedra_para_str(pp))
+
+print(eh_pedra_jogador(cria_pedra_neutra()))
