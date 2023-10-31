@@ -98,20 +98,24 @@ def eh_pedra_jogador(pedra):
     return pedra in ["O", "X"]
 
 
-#GOBAN
+#GOBAN verificar argumentos
 def cria_goban_vazio(n):
     return [['.' for _ in range(n)] for _ in range(n)]
 
-#ta mal
 def cria_goban(n, brancas, pretas):
     goban = cria_goban_vazio(n)
     for tup in brancas:
         col = (ord(tup[0]) - 65)
-        row = tup[1] - 9
+        row = tup[1] - 1
+        goban[row][col] = cria_pedra_branca()
 
-def cria_copia_goban():
-    # Constructor to create a copy of a Go board
-    pass
+    for tup in pretas:
+        col = (ord(tup[0]) - 65)
+        row = tup[1] - 1
+        goban[row][col] = cria_pedra_preta()
+
+def cria_copia_goban(goban):
+    return goban
 
 def obtem_ultima_intersecao():
     # Selector to get the last intersection
@@ -170,10 +174,11 @@ def obtem_pedras_jogadores(goban):
     pass
 
 #pretty print
-def print_go_board(board):
+def goban_para_str(goban):
     labels = "  A B C D E F G H I"
-    for row in range(len(board), 0, -1):
-        print(f"{row} {' '.join(board[row - 1])} {row}")
+    print(labels)
+    for row in range(len(goban), 0, -1):
+        print(f"{row} {' '.join(goban[row - 1])} {row}")
     print(labels)
 
 a = cria_intersecao("A", 2)
@@ -221,3 +226,7 @@ print(pedras_iguais(bb, pp))
 print(pedra_para_str(bb), pedra_para_str(pp))
 
 print(eh_pedra_jogador(cria_pedra_neutra()))
+
+print("GOBAN")
+g = cria_goban_vazio(9)
+goban_para_str(g)
